@@ -1,29 +1,55 @@
 package com.saefulrdevs.storyapp.data.remote.retrofit
 
+import com.saefulrdevs.storyapp.data.remote.model.Login
+import com.saefulrdevs.storyapp.data.remote.model.NewStory
+import com.saefulrdevs.storyapp.data.remote.model.Register
+import com.saefulrdevs.storyapp.data.remote.response.AddNewStoryResponse
+import com.saefulrdevs.storyapp.data.remote.response.ListStoryResponse
+import com.saefulrdevs.storyapp.data.remote.response.LoginResponse
+import com.saefulrdevs.storyapp.data.remote.response.RegisterResponse
+import com.saefulrdevs.storyapp.data.remote.response.StoryResponse
+import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.*
 
 interface ApiService {
 
-    @GET("events")
-    suspend fun getAllActiveEvent(
-        @Query("active") active: Int = 1
-    ): Response<EventResponse>
+    @FormUrlEncoded
+    @POST("register")
+    suspend fun register(
+        @Body request: Register
+    ): Response<RegisterResponse>
 
-    @GET("events")
-    suspend fun getAllFinishedEvent(
-        @Query("active") active: Int = 0
-    ): Response<EventResponse>
+    @FormUrlEncoded
+    @POST("login")
+    suspend fun login(
+        @Body request: Login
+    ): Response<LoginResponse>
 
-    @GET("events")
-    suspend fun searchEvent(
-        @Query("q") keyword: String,
-        @Query("active") active: Int = -1
-    ): Response<EventResponse>
+    @Multipart
+    @POST("stories")
+    suspend fun addNewStory(
+        @Body description: NewStory,
+        @Part photo: MultipartBody.Part,
+        @Header("Authorization") token: String
+    ): Response<AddNewStoryResponse>
 
-    @GET("events/{id}")
-    suspend fun getDetailEvent(
-        @Path("id") id: Int
-    ): Response<EventDetailResponse>
+    @Multipart
+    @POST("stories/guest")
+    suspend fun addNewStoryWithGuestAccount(
+        @Body description: NewStory,
+        @Part photo: MultipartBody.Part
+    ): Response<AddNewStoryResponse>
+
+    @GET("stories/{id}")
+    suspend fun getStoryById(
+        @Path("id") id: String,
+        @Header("Authorization") token: String
+    ): Response<StoryResponse>
+
+    @GET("stories")
+    suspend fun getAllStories(
+        @Header("Authorization") token: String
+    ): Response<ListStoryResponse>
 }
 

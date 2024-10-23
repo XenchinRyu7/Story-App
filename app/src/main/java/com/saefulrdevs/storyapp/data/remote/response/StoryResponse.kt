@@ -2,7 +2,7 @@ package com.saefulrdevs.storyapp.data.remote.response
 
 import com.google.gson.annotations.SerializedName
 
-data class AddNewsStoryResponse(
+data class AddNewStoryResponse(
 
     @field:SerializedName("error")
     val error: Boolean? = null,
@@ -11,7 +11,7 @@ data class AddNewsStoryResponse(
     val message: String? = null
 )
 
-data class AddNewsStoryWithGuestAccount(
+data class AddNewStoryWithGuestAccount(
     @field:SerializedName("error")
     val error: Boolean? = null,
 
