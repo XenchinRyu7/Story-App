@@ -1,26 +1,24 @@
-package com.saefulrdevs.storyapp.data.remote.retrofit
+package com.saefulrdevs.dicodingstory.data.remote.retrofit
 
-import com.saefulrdevs.storyapp.data.remote.model.Login
-import com.saefulrdevs.storyapp.data.remote.model.NewStory
-import com.saefulrdevs.storyapp.data.remote.model.Register
-import com.saefulrdevs.storyapp.data.remote.response.AddNewStoryResponse
-import com.saefulrdevs.storyapp.data.remote.response.ListStoryResponse
-import com.saefulrdevs.storyapp.data.remote.response.LoginResponse
-import com.saefulrdevs.storyapp.data.remote.response.RegisterResponse
-import com.saefulrdevs.storyapp.data.remote.response.StoryResponse
+import com.saefulrdevs.dicodingstory.data.remote.model.Login
+import com.saefulrdevs.dicodingstory.data.remote.model.NewStory
+import com.saefulrdevs.dicodingstory.data.remote.model.Register
+import com.saefulrdevs.dicodingstory.data.remote.response.AddNewStoryResponse
+import com.saefulrdevs.dicodingstory.data.remote.response.ListStoryResponse
+import com.saefulrdevs.dicodingstory.data.remote.response.LoginResponse
+import com.saefulrdevs.dicodingstory.data.remote.response.RegisterResponse
+import com.saefulrdevs.dicodingstory.data.remote.response.StoryResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.*
 
 interface ApiService {
 
-    @FormUrlEncoded
     @POST("register")
     suspend fun register(
         @Body request: Register
     ): Response<RegisterResponse>
 
-    @FormUrlEncoded
     @POST("login")
     suspend fun login(
         @Body request: Login

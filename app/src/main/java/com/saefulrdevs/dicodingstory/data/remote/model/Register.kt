@@ -1,4 +1,4 @@
-package com.saefulrdevs.storyapp.data.remote.model
+package com.saefulrdevs.dicodingstory.data.remote.model
 
 data class Register(
     val name: String,

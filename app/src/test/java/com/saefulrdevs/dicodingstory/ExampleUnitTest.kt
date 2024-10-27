@@ -1,4 +1,4 @@
-package com.saefulrdevs.storyapp
+package com.saefulrdevs.dicodingstory
 
 import org.junit.Test
 

@@ -1,3 +1,18 @@
 <resources>
-    <string name="app_name">Story App</string>
+    <string name="app_name">Dicoding Story</string>
+
+    <string name="story_app_welcome_title">Selamat Datang di Dicoding Story!</string>
+    <string name="story_app_welcome_desc">Mau berbagi ilmu tentang Android, IOS, Machine Learning, Cloud, Front-End, Back-End, dan bidang IT lainnya? Di Dicoding Story aja</string>
+    <string name="btn_login">Masuk</string>
+    <string name="btn_register">Daftar</string>
+    <string name="image_auth_banner">Banner From Dicoding</string>
+
+    <string name="login_title">Sudah siap untuk berbagi cerita?</string>
+    <string name="login_desc">Masukan dulu datamu ya</string>
+    <string name="email_input_label">Masukan Email</string>
+    <string name="password_input_label">Masukan Password</string>
+
+    <string name="register_title">Lengkapi data dirimu dibawah ini ya</string>
+    <string name="name_input_label">Masukan Nama</string>"
+
 </resources>

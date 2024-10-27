@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.saefulrdevs.storyapp"
+    namespace = "com.saefulrdevs.dicodingstory"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.saefulrdevs.storyapp"
+        applicationId = "com.saefulrdevs.dicodingstory"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

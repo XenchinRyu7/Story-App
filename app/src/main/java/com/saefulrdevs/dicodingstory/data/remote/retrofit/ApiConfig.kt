@@ -1,4 +1,4 @@
-package com.saefulrdevs.storyapp.data.remote.retrofit
+package com.saefulrdevs.dicodingstory.data.remote.retrofit
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

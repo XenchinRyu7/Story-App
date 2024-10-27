@@ -1,4 +1,4 @@
-package com.saefulrdevs.storyapp
+package com.saefulrdevs.dicodingstory
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
