@@ -1,9 +1,10 @@
-package com.saefulrdevs.dicodingstory.data.remote.repository
+package com.saefulrdevs.dicodingstory.data.repository
 
+import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
 import com.saefulrdevs.dicodingstory.data.remote.model.Login
 import com.saefulrdevs.dicodingstory.data.remote.model.Register
 import com.saefulrdevs.dicodingstory.data.remote.response.ListStoryItem
-import com.saefulrdevs.dicodingstory.data.remote.response.LoginResponse
 import com.saefulrdevs.dicodingstory.data.remote.response.LoginResult
 import com.saefulrdevs.dicodingstory.data.remote.response.RegisterResponse
 import com.saefulrdevs.dicodingstory.data.remote.response.Story
@@ -20,7 +21,16 @@ class StoryRepository(
             if (response.isSuccessful) {
                 Result.success(response.body()?.message ?: "Registration successful")
             } else {
-                Result.failure(Exception("Failed to register user, Status code: ${response.code()}"))
+                val errorResponse = try {
+                    response.errorBody()?.string()?.let {
+                        Gson().fromJson(it, RegisterResponse::class.java)
+                    }
+                } catch (e: JsonSyntaxException) {
+                    null
+                }
+
+                val errorMessage = errorResponse?.message ?: "Unknown error occurred"
+                Result.failure(Exception(errorMessage))
             }
         } catch (e: Exception) {
             Result.failure(e)
@@ -33,7 +43,16 @@ class StoryRepository(
             if (response.isSuccessful) {
                 Result.success(response.body()?.loginResult ?: LoginResult())
             } else {
-                Result.failure(Exception("Failed to login user, Status code: ${response.code()}"))
+                val errorResponse = try {
+                    response.errorBody()?.string()?.let {
+                        Gson().fromJson(it, RegisterResponse::class.java)
+                    }
+                } catch (e: JsonSyntaxException) {
+                    null
+                }
+
+                val errorMessage = errorResponse?.message ?: "Unknown error occurred"
+                Result.failure(Exception(errorMessage))
             }
         } catch (e: Exception) {
             Result.failure(e)
@@ -66,4 +85,15 @@ class StoryRepository(
         }
     }
 
+    companion object {
+        @Volatile
+        private var instance: StoryRepository? = null
+        fun getInstance(
+            apiService: ApiService,
+        ): StoryRepository =
+            instance ?: synchronized(this) {
+                instance ?: StoryRepository(apiService)
+            }
+                .also { instance = it }
+    }
 }

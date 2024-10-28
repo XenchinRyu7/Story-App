@@ -18,6 +18,8 @@ lifecycleViewmodelKtx = "2.8.6"
 kotlinxCoroutinesAndroid = "1.7.3"
 kotlinxCoroutinesCore = "1.6.4"
 datastorePreferences = "1.1.1"
+navigationFragmentKtx = "2.8.3"
+navigationUiKtx = "2.8.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -37,6 +39,8 @@ androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifec
 jetbrains-kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
+androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
+androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -64,4 +64,8 @@ dependencies {
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.jetbrains.kotlinx.coroutines.android)
+
+    // navigation
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
 }

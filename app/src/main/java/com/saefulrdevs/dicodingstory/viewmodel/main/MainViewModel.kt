@@ -3,17 +3,20 @@ package com.saefulrdevs.dicodingstory.viewmodel.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.saefulrdevs.dicodingstory.data.local.AuthPreferences
 import com.saefulrdevs.dicodingstory.data.remote.model.Login
 import com.saefulrdevs.dicodingstory.data.remote.model.Register
-import com.saefulrdevs.dicodingstory.data.remote.repository.StoryRepository
+import com.saefulrdevs.dicodingstory.data.repository.StoryRepository
 import com.saefulrdevs.dicodingstory.data.remote.response.ListStoryItem
 import com.saefulrdevs.dicodingstory.data.remote.response.LoginResult
 import com.saefulrdevs.dicodingstory.data.remote.response.Story
 import kotlinx.coroutines.launch
 
 class MainViewModel(
-    private val storyRepository: StoryRepository
+    private val storyRepository: StoryRepository,
+    private val authPreferences: AuthPreferences
 ) : ViewModel() {
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> = _errorMessage
@@ -33,6 +36,13 @@ class MainViewModel(
     private val _loginResult = MutableLiveData<LoginResult>()
     val loginResult: LiveData<LoginResult> = _loginResult
 
+    fun showSnackbar(message: String) {
+        _errorMessage.value = message
+    }
+
+    fun clearSnackbarMessage() {
+        _errorMessage.value = ""
+    }
 
     fun getAllStory(token: String) {
         _isLoading.value = true
@@ -66,7 +76,7 @@ class MainViewModel(
             val result = storyRepository.register(newUser)
             _isLoading.value = false
             result.onSuccess {
-                _message.value = it.toString()
+                _message.value = it
             }.onFailure {
                 _errorMessage.value = it.message
             }
@@ -86,4 +96,21 @@ class MainViewModel(
         }
     }
 
+    fun getAuthToken(): LiveData<String?> {
+        return authPreferences.getAuthToken().asLiveData()
+    }
+
+    fun saveAuthToken(token: String) {
+        viewModelScope.launch {
+            authPreferences.saveAuthToken(token)
+        }
+    }
+
+    fun clearMessage() {
+        _message.value = ""
+    }
+
+    fun clearErrorMessage() {
+        _errorMessage.value = ""
+    }
 }

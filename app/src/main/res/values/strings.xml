@@ -11,6 +11,7 @@
     <string name="login_desc">Masukan dulu datamu ya</string>
     <string name="email_input_label">Masukan Email</string>
     <string name="password_input_label">Masukan Password</string>
+    <string name="password_verif_input_label">Masukan Verifikasi Password</string>
 
     <string name="register_title">Lengkapi data dirimu dibawah ini ya</string>
     <string name="name_input_label">Masukan Nama</string>"
