@@ -9,6 +9,7 @@ import com.saefulrdevs.dicodingstory.data.remote.response.LoginResponse
 import com.saefulrdevs.dicodingstory.data.remote.response.RegisterResponse
 import com.saefulrdevs.dicodingstory.data.remote.response.StoryResponse
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -27,9 +28,9 @@ interface ApiService {
     @Multipart
     @POST("stories")
     suspend fun addNewStory(
-        @Body description: NewStory,
-        @Part photo: MultipartBody.Part,
-        @Header("Authorization") token: String
+        @Header("Authorization") token: String,
+        @Part("description") description: RequestBody,
+        @Part photo: MultipartBody.Part
     ): Response<AddNewStoryResponse>
 
     @Multipart

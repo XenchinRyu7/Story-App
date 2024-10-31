@@ -6,12 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.saefulrdevs.dicodingstory.databinding.FragmentLoginBinding
 import com.saefulrdevs.dicodingstory.utils.ViewModelFactory
 import com.saefulrdevs.dicodingstory.viewmodel.main.MainViewModel
 import androidx.fragment.app.viewModels
-import com.google.android.material.snackbar.Snackbar
+import com.saefulrdevs.dicodingstory.R
 import com.saefulrdevs.dicodingstory.data.remote.model.Login
+import com.saefulrdevs.dicodingstory.utils.ResultState
 import com.saefulrdevs.dicodingstory.view.main.MainActivity
 
 class LoginFragment : Fragment() {
@@ -27,8 +29,6 @@ class LoginFragment : Fragment() {
     ): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
         setupUI()
-        observeViewModel()
-        observeSnackbarMessages()
         return binding.root
     }
 
@@ -44,37 +44,42 @@ class LoginFragment : Fragment() {
 
         if (email.isNotEmpty() && password.isNotEmpty()) {
             val loginRequest = Login(email, password)
-            mainViewModel.login(loginRequest)
-            binding.btnLogin.isEnabled = true
+            mainViewModel.login(loginRequest).observe(viewLifecycleOwner) { result ->
+                if (result != null) {
+                    when (result) {
+                        is ResultState.Loading -> {
+                            showLoading(true)
+                        }
+
+                        is ResultState.Success -> {
+                            val loginResult = result.data
+                            showToast(getString(R.string.login_success))
+                            showLoading(false)
+                            mainViewModel.saveAuthToken(loginResult.token ?: "")
+                            val intent = Intent(requireContext(), MainActivity::class.java)
+                            intent.putExtra("token", loginResult.token)
+                            startActivity(intent)
+                        }
+
+                        is ResultState.Error -> {
+                            showToast(result.error)
+                            showLoading(false)
+                        }
+                    }
+                }
+            }
         } else {
-            binding.btnLogin.isEnabled = false
+            binding.tfEmail.error = getString(R.string.email_required)
+            binding.tfPassword.error = getString(R.string.password_required)
         }
     }
 
-    private fun observeViewModel() {
-        mainViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-        }
-        mainViewModel.loginResult.observe(viewLifecycleOwner) { loginResult ->
-            mainViewModel.saveAuthToken(loginResult.token ?: "")
-            val intent = Intent(requireContext(), MainActivity::class.java)
-            intent.putExtra("token", loginResult.token)
-            startActivity(intent)
-        }
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
-    private fun observeSnackbarMessages() {
-        mainViewModel.errorMessage.observe(viewLifecycleOwner) { message ->
-            message?.let {
-                Snackbar.make(binding.root, it, Snackbar.LENGTH_SHORT).show()
-                mainViewModel.clearSnackbarMessage()
-            }
-        }
-        mainViewModel.message.observe(viewLifecycleOwner) { message ->
-            message?.let {
-                Snackbar.make(binding.root, it, Snackbar.LENGTH_SHORT).show()
-                mainViewModel.clearSnackbarMessage()
-            }
-        }
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
+
 }

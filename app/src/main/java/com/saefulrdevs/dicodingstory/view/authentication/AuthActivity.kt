@@ -16,7 +16,6 @@ import com.saefulrdevs.dicodingstory.view.main.MainActivity
 import com.saefulrdevs.dicodingstory.viewmodel.main.MainViewModel
 
 class AuthActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityAuthBinding
 
     private val mainViewModel: MainViewModel by viewModels {
@@ -26,9 +25,29 @@ class AuthActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        binding = ActivityAuthBinding.inflate(layoutInflater)
+
         checkAuth()
-        setContentView(binding.root)
+    }
+
+    private fun checkAuth() {
+        mainViewModel.getAuthToken().observe(this) { token ->
+            if (token != null) {
+                val intent = Intent(this, MainActivity::class.java).apply {
+                    putExtra("token", token)
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }
+                startActivity(intent)
+                finish()
+            } else {
+                binding = ActivityAuthBinding.inflate(layoutInflater)
+                setContentView(binding.root)
+                setupUI()
+            }
+        }
+    }
+
+
+    private fun setupUI() {
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -67,15 +86,5 @@ class AuthActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressedDispatcher.onBackPressed()
         return true
-    }
-
-    private fun checkAuth() {
-        mainViewModel.getAuthToken().observe(this) { token ->
-            if (token != null) {
-                val intent = Intent(this, MainActivity::class.java)
-                intent.putExtra("token", token)
-                startActivity(intent)
-            }
-        }
     }
 }

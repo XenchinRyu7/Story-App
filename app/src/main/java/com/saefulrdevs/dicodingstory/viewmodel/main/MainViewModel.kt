@@ -1,5 +1,6 @@
 package com.saefulrdevs.dicodingstory.viewmodel.main
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,7 +13,10 @@ import com.saefulrdevs.dicodingstory.data.repository.StoryRepository
 import com.saefulrdevs.dicodingstory.data.remote.response.ListStoryItem
 import com.saefulrdevs.dicodingstory.data.remote.response.LoginResult
 import com.saefulrdevs.dicodingstory.data.remote.response.Story
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.File
 
 class MainViewModel(
     private val storyRepository: StoryRepository,
@@ -36,12 +40,9 @@ class MainViewModel(
     private val _loginResult = MutableLiveData<LoginResult>()
     val loginResult: LiveData<LoginResult> = _loginResult
 
-    fun showSnackbar(message: String) {
-        _errorMessage.value = message
-    }
-
     fun clearSnackbarMessage() {
         _errorMessage.value = ""
+        _message.value = ""
     }
 
     fun getAllStory(token: String) {
@@ -70,31 +71,12 @@ class MainViewModel(
         }
     }
 
-    fun register(newUser: Register) {
-        _isLoading.value = true
-        viewModelScope.launch {
-            val result = storyRepository.register(newUser)
-            _isLoading.value = false
-            result.onSuccess {
-                _message.value = it
-            }.onFailure {
-                _errorMessage.value = it.message
-            }
-        }
-    }
+    fun addNewStory(token: String, description: String, file: File) =
+        storyRepository.addNewStory(token, description, file)
 
-    fun login(login: Login) {
-        _isLoading.value = true
-        viewModelScope.launch {
-            val result = storyRepository.login(login)
-            _isLoading.value = false
-            result.onSuccess {
-                _loginResult.value = it
-            }.onFailure {
-                _errorMessage.value = it.message
-            }
-        }
-    }
+    fun register(newUser: Register) = storyRepository.register(newUser)
+
+    fun login(login: Login) = storyRepository.login(login)
 
     fun getAuthToken(): LiveData<String?> {
         return authPreferences.getAuthToken().asLiveData()
@@ -103,6 +85,12 @@ class MainViewModel(
     fun saveAuthToken(token: String) {
         viewModelScope.launch {
             authPreferences.saveAuthToken(token)
+        }
+    }
+
+    fun deleteAuthToken() {
+        viewModelScope.launch {
+            authPreferences.deleteAuthToken()
         }
     }
 

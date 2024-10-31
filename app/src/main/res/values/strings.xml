@@ -17,4 +17,29 @@
     <string name="name_input_label">Masukan Nama</string>"
 
     <string name="img_story">Gambar Story</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_new_story">Tambah Story Baru</string>
+    <string name="image_to_upload">Image To Upload</string>
+    <string name="btn_camera">Camera</string>
+    <string name="btn_gallery">Gallery</string>
+    <string name="description_input_label">Description</string>
+    <string name="btn_upload">Upload</string>
+    <string name="switch_camera">Ubah Camera</string>
+    <string name="empty_image_warning">Gambar belum ada</string>
+    <string name="empty_token_warning">Anda belum login</string>
+    <string name="capture_image">captured image</string>
+    <string name="error_image_upload">Gagal mengunggah gambar</string>
+    <string name="upload_success">Upload Image Berhasil</string>
+    <string name="logout">Logout</string>
+    <string name="exit_app">Keluar Aplikasi</string>
+    <string name="title_logout">Logout?</string>
+    <string name="description_logout">Apa anda yakin akan logout?</string>
+    <string name="cancel">Batal</string>
+    <string name="accept">Ok</string>
+    <string name="title_exit">Keluar Aplikasi</string>
+    <string name="description_exit">Apa anda yakin akan keluar aplikasi?</string>
+    <string name="login_success">Login Berhasil</string>
+    <string name="email_required">Masukan Email</string>
+    <string name="password_required">Masukan Password</string>
 </resources>

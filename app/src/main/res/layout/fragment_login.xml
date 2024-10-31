@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".view.authentication.login.LoginFragment">
 
     <ImageView
@@ -103,15 +103,16 @@
         android:layout_marginBottom="8dp"
         android:hint="@string/password_input_label"
         app:endIconMode="password_toggle"
-        app:startIconDrawable="@drawable/ic_lock_outline_24"
         app:layout_constraintBottom_toTopOf="@+id/btnLogin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tfEmail">
+        app:layout_constraintTop_toBottomOf="@+id/tfEmail"
+        app:startIconDrawable="@drawable/ic_lock_outline_24">
 
         <com.saefulrdevs.dicodingstory.view.customview.PasswordEditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="textPassword" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

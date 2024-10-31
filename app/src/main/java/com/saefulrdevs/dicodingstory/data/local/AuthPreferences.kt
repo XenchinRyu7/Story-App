@@ -13,7 +13,7 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "au
 
 class AuthPreferences private constructor(
     private val dataStore: DataStore<Preferences>
-){
+) {
     private val authToken = stringPreferencesKey("auth_token")
 
     fun getAuthToken(): Flow<String?> {
@@ -25,6 +25,12 @@ class AuthPreferences private constructor(
     suspend fun saveAuthToken(token: String) {
         dataStore.edit { preferences ->
             preferences[authToken] = token
+        }
+    }
+
+    suspend fun deleteAuthToken() {
+        dataStore.edit { preferences ->
+            preferences.remove(authToken)
         }
     }
 
